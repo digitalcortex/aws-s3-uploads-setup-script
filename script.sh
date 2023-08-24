@@ -30,8 +30,16 @@ else
         exit 1;
     fi
 fi
-if [ "$SIGNER_PUBLIC_KEY_PATH" = "" ]; then
-    read -p 'Enter signer public key path (leave blank for no signer): ' SIGNER_PUBLIC_KEY_PATH
+
+if [ "$SIGNER_PUBLIC_KEY_PATH" != "null" ]; then
+    if [ "$SIGNER_PUBLIC_KEY_PATH" = "" ]; then
+        read -p 'Enter signer public key path (leave blank for no signer): ' SIGNER_PUBLIC_KEY_PATH
+        if [ "$SIGNER_PUBLIC_KEY_PATH" = "" ]; then
+            echo "No signer provided. Making all files public"
+        fi
+    fi
+else 
+    SIGNER_PUBLIC_KEY_PATH=""
 fi
 
 # Create an S3 bucket where we will store all files uploaded to our web app
