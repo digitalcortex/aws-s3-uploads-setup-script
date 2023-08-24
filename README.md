@@ -1,23 +1,23 @@
 # Setup S3 storage for file uploads in seconds
-script.sh creates everything needed for storing web app uploads and making them available via Cloudfront:
+**script.sh** creates everything needed for storing web app uploads and making them available via Cloudfront:
 - S3 bucket with policy allowing Cloudfront to access the contents
 - Cloudfront distribution for serving files from S3 bucket
 - Origin Access Control for connecting Cloudfront distribution with an S3 bucket
 - Cloudfront signer public key and key group for protecting private files with signed URLs
 
-request-certificate.sh creates an SSL certificate issued by Amazon. Needs manual DNS validation
+**request-certificate.sh** creates an SSL certificate issued by Amazon. Needs manual DNS validation
 
-generate-signer.sh creates a key that you can use to sign Cloudfront URLs for providing access to protected private files
+**generate-signer.sh** creates a key that you can use to sign Cloudfront URLs for providing access to protected private files
 
-Note: Ensure you have a AWS CLI configured with your credentials before running "script.sh" and "request-certificate.sh".
+*Ensure you have a AWS CLI configured with your credentials before running "script.sh" and "request-certificate.sh".*
 
 ## How to use
-#### Step 1. Allow execution on Linux & Mac OS:
+### Step 1. Allow execution on Linux & Mac OS:
 First time setup command:
 ```
 chmod +x script.sh && chmod +x request-certificate.sh && chmod +x generate-signer.sh
 ```
-#### Step 2. Generate signer keys for protecting uploads that require authentication for access (optional)
+### Step 2. Generate signer keys for protecting uploads that require authentication for access (optional)
 ```
 generate-signer.sh
 ```
@@ -31,7 +31,7 @@ writing RSA key
 ```
 Script saves the public key to "signer-key/test_pub.pem" and the private key to "signer-key/test.pem". Use private key on a backend to create signed URLs for letting authenticated users view the protected files
 
-#### Step 3. Create an SSL certificate when using custom domain for accessing your uploads (optional)
+### Step 3. Create an SSL certificate when using custom domain for accessing your uploads (optional)
 You may skip this step if you are not planning to connect your Cloudfront distribution to your own domain and just use default domain name provided by Amazon.
 
 However if you're interested in serving your uploads with URL looking like this "https://cdn.mycustomdomain.com/*" then do following:
@@ -50,7 +50,7 @@ Enter domain: cdn.mycustomdomain.com
 ```
 Visit your Amazon console and copy the validation DNS settings to your domain settings. Wait for Amazon to issue an SSL certificate for your domain and save the CertificateARN, you'll need it later.
 
-#### Step 4. Create bucket and Cloudfront distribution
+### Step 4. Create bucket and Cloudfront distribution
 Set env variables and run the script.sh
 
 List of all env variables with example values:
@@ -74,12 +74,12 @@ SIGNER_PUBLIC_KEY_PATH="signer-key/test_pub.pem"
 ```
 The script will request user input for missing env variables.
 
-Example without custom domain but with private files:
+Example without custom domain and with private files:
 ```
 AWS_BUCKET=test-53825985928 AWS_REGION=eu-west-2 CF_DOMAIN=null SIGNER_PUBLIC_KEY_PATH=signer-key/test_pub.pem ./script.sh
 ```
 
-Example without custom domain but with all files publicly available:
+Example without custom domain and with all files publicly available:
 ```
 AWS_BUCKET=test-53825985928 AWS_REGION=eu-west-2 CF_DOMAIN=null SIGNER_PUBLIC_KEY_PATH=null ./script.sh
 ```
