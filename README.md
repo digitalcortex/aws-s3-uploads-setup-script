@@ -64,13 +64,18 @@ AWS_REGION="us-east-1"
 // Custom domain. If not needed, set it to "null" without quotes
 CF_DOMAIN="cdn.mycustomdomain.com"
 
-// ARN of a verified SSL certificate that you created during step 3. Needed only when you set CF_DOMAIN 
+// ARN of a verified SSL certificate that you created during step 3.
+// Needed only when you set CF_DOMAIN 
 ACM_CERTIFICATE_ARN="arn:aws:acm:us-east-1:********:certificate/*******-****-****-****-************"
 
-// Public key of a signer. If you want to make all files public, set it to "null" without quotes
+// Public key of a signer. If you want to make all files public,
+// set it to "null" without quotes
 SIGNER_PUBLIC_KEY_PATH="signer-key/test_pub.pem"
 
-// If you provided SIGNER_PUBLIC_KEY_PATH variable during setup, the script will create two Cloudfront cache behaviours: "\*" for protecting private files that require signed URL and "public/\*" for keeping files that don't need any protection.
+// If you provided SIGNER_PUBLIC_KEY_PATH variable during setup,
+// the script will create two Cloudfront cache behaviours:
+// "\*" for protecting private files that require signed URL
+// and "public/\*" for keeping files that don't need any protection.
 ```
 The script will request user input for missing env variables.
 
